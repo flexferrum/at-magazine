@@ -3,5 +3,5 @@
 
 ## Обновления по жанрам:
 {% for g, l in groupedUpdates %}
-### {{g}}
+### {{g}} ({{l | length}})
 {% endfor %}

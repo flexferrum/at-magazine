@@ -63,7 +63,7 @@ class DigestBuilder:
         if params.isVerbose:
             print (result)
 
-        fout = open(params.digestOutputPath, 'wt')
+        fout = open(params.digestOutputPath, 'wt', encoding='utf-8')
         fout.write(result + '\n')
         fout.close()
 
