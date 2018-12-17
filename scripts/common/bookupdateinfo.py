@@ -7,10 +7,12 @@ class BookUpdateInfo:
         self.id = 0
         self.title = ''
         self.author = ''
+        self.url = ''
         self.createdAt = datetime.utcnow()
         self.updatedAt = datetime.utcnow()
         self.textLength = 0
         self.isFinished = False
+        self.isNew = False
         self.annotation = ''
         self.adultOnly = False
         self.mainGenre = ''
@@ -24,9 +26,11 @@ class BookUpdateInfo:
         result.author = node['author']
         result.annotation = node['abstract']
         result.mainGenre = node['main_genre']
+        result.url = node['url']
 
         result.createdAt = datetime.utcfromtimestamp(int(node['created_at']))
         result.updatedAt = datetime.utcfromtimestamp(int(node['updated_at']))
-        result.isFinished = False if node['is_finished'] == 'False' else True
-        result.adultOnly = False if node['adult_only'] == 'False' else True
+        result.isNew = result.createdAt == result.updatedAt
+        result.isFinished = False if node['is_finished'] == 'false' else True
+        result.adultOnly = False if node['adult_only'] == 'false' else True
         return result
