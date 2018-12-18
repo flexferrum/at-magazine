@@ -9,8 +9,9 @@
 **{{ book.author | trim }}** {{ 'разместил(а)' if book.isFinished else 'добавил(а)' }} книгу "[{{ book.title }}]({{ book.url }})"
 
 {% if book.annotation is defined and (book.annotation | trim | length) > 0 -%}
-`{{ book.annotation | replace('<br/>', '') }}`
-{%- endif %}
+`{{ book.annotation | replace('<br/>', '') | truncate }}`
+
+{% endif -%}
 {% elif book.isFinished -%}
 **{{ book.author | trim }}** завершил(а) книгу "[{{ book.title }}]({{ book.url }})"
 {% else -%}

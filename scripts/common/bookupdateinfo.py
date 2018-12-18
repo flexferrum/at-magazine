@@ -19,7 +19,7 @@ class BookUpdateInfo:
         self.subGenres = []
 
     @staticmethod
-    def createFromJson(node):
+    def createFromJson(node, fromDate, toDate):
         result = BookUpdateInfo()
 
         result.title = node['title']
@@ -33,7 +33,7 @@ class BookUpdateInfo:
 
         result.createdAt = datetime.utcfromtimestamp(int(node['created_at']))
         result.updatedAt = datetime.utcfromtimestamp(int(node['updated_at']))
-        result.isNew = result.createdAt == result.updatedAt
+        result.isNew = result.createdAt.date() >= fromDate and result.createdAt.date() <= toDate # result.createdAt == result.updatedAt
         result.isFinished = False if node['is_finished'] == 'false' else True
         result.adultOnly = False if node['adult_only'] == 'false' else True
         return result

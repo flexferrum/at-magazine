@@ -32,14 +32,14 @@ class DigestParams:
 class DigestBuilder:
 
     @staticmethod
-    def loadNewBooksFromFile(fileName: str, verbose: bool):
+    def loadNewBooksFromFile(fileName: str, verbose: bool, fromDate, toDate):
 
         with open(fileName, encoding='utf-8') as f:
             data = json.load(f)
 
         result = []
         for w in data:
-            updateInfo = BookUpdateInfo.createFromJson(w)
+            updateInfo = BookUpdateInfo.createFromJson(w, fromDate, toDate)
             if updateInfo.isNew:
                 if verbose:
                     pprint(w)
@@ -56,10 +56,14 @@ class DigestBuilder:
 
         loader = FileSystemLoader(os.path.dirname(__file__) + '/templates')
         env = Environment(loader=loader)
-        newBooks = DigestBuilder.loadNewBooksFromFile(params.newWorksFile, params.isVerbose)
+        
+        currentDate = date.today() - timedelta(days=1)
+        fromDate=currentDate - timedelta(days=7)
+        
+        newBooks = DigestBuilder.loadNewBooksFromFile(params.newWorksFile, params.isVerbose, fromDate, currentDate)
 
         tpl = env.get_template(params.digestTemplatePath)
-        result = tpl.render(newBooks=newBooks, currentDate=date.today(), fromDate=date.today() - timedelta(days=7))
+        result = tpl.render(newBooks=newBooks, currentDate=currentDate, fromDate=fromDate)
         if params.isVerbose:
             print (result)
 
@@ -77,7 +81,7 @@ class DigestBuilder:
         parser.add_argument(
             '-v', '--verbose',
             action='store_true',
-            default=True,
+            default=False,
             help='report what is generated')
 
         parser.add_argument(
