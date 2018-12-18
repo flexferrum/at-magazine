@@ -9,7 +9,7 @@
 **{{ book.author | trim }}** {{ 'разместил(а)' if book.isFinished else 'добавил(а)' }} книгу "[{{ book.title }}]({{ book.url }})"
 
 {% if book.annotation is defined and (book.annotation | trim | length) > 0 -%}
-`{{ book.annotation | replace('<br/>', '') | truncate }}`
+`{{ book.annotation | replace('<br/>', '') | truncate(length=90) }}`
 
 {% endif -%}
 {% elif book.isFinished -%}
