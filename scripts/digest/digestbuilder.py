@@ -40,10 +40,10 @@ class DigestBuilder:
         result = []
         for w in data:
             updateInfo = BookUpdateInfo.createFromJson(w)
-            if verbose:
-                pprint(w)
-
-            result.append(updateInfo)
+            if updateInfo.isNew:
+                if verbose:
+                    pprint(w)
+                result.append(updateInfo)
 
         return result
 

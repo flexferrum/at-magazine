@@ -19,12 +19,15 @@ class BookUpdateInfo:
         self.subGenres = []
 
     @staticmethod
-    def createFromJson(node) :
+    def createFromJson(node):
         result = BookUpdateInfo()
 
         result.title = node['title']
         result.author = node['author']
-        result.annotation = node['abstract']
+        abstract = node['abstract']
+        if abstract != 'null':
+            result.annotation = abstract
+
         result.mainGenre = node['main_genre']
         result.url = node['url']
 
