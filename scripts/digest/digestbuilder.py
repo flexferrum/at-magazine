@@ -116,7 +116,7 @@ class DigestBuilder:
             '--digest-template',
             metavar='file_file',
             type=str,
-            default='weekly_digest.md',
+            default='weekly_digest.html',
             help='Path to the digest template file')
 
         opt = parser.parse_args()

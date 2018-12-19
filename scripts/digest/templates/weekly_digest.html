@@ -1,0 +1,22 @@
+<h2>Еженедельный дайджест Author.Today {{fromDate.day ~ '.' ~ fromDate.month ~ '.' ~ fromDate.year}} - {{currentDate.day ~ '.' ~ currentDate.month ~ '.' ~ currentDate.year}}</h2>
+{% set groupedUpdates = newBooks | groupby('mainGenre')%}
+
+<p><strong>Новые работы по жанрам:</strong></p>
+{% for g, l in groupedUpdates %}
+<p>[spoiler={{g}} - {{l | length}} (нажми, чтобы прочитать)]</p>
+{% for book in l -%}
+{% if book.isNew -%}
+<p><strong>{{ book.author | trim }}</strong> {{ 'разместил(а)' if book.isFinished else 'начала(а)' }} книгу "<a href="{{book.url}}" target="_blank">{{ book.title }}</a>"</p>
+
+{% if book.annotation is defined and (book.annotation | trim | length) > 0 -%}
+<p><code><em>{{ book.annotation | truncate(length=90) }}</em></code></p>
+
+{% endif -%}
+{% elif book.isFinished -%}
+**{{ book.author | trim }}** завершил(а) книгу "[{{ book.title }}]({{ book.url }})"
+{% else -%}
+**{{ book.author | trim }}** обновил(а) книгу "[{{ book.title }}]({{ book.url }})"
+{% endif -%}
+{%endfor %}
+<p>[/spoiler]</p>
+{% endfor %}
