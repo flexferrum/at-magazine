@@ -58,7 +58,7 @@ class DigestBuilder:
         env = Environment(loader=loader)
         
         currentDate = date.today() - timedelta(days=1)
-        fromDate=currentDate - timedelta(days=7)
+        fromDate=currentDate - timedelta(days=6)
         
         newBooks = DigestBuilder.loadNewBooksFromFile(params.newWorksFile, params.isVerbose, fromDate, currentDate)
 
@@ -66,10 +66,15 @@ class DigestBuilder:
         result = tpl.render(newBooks=newBooks, currentDate=currentDate, fromDate=fromDate)
         if params.isVerbose:
             print (result)
+            
 
         fout = open(params.digestOutputPath, 'wt', encoding='utf-8')
         fout.write(result + '\n')
         fout.close()
+        
+        print ("New digest created in the file '{digestFile}'. {booksCount} book(s) has been written".format(digestFile=params.digestOutputPath,
+            booksCount = len(newBooks)
+        ))
 
     @staticmethod
     def main():
